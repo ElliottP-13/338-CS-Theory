@@ -39,7 +39,7 @@ By Induction\\
 
 We show that the base case of $n = 1$ holds. The left hand side of the relation is $\sum_{i=1}^1(2 * i - 1) ^2 = 1$, and the right hand side is $1/3 * 1 * (4 * 1^2 - 1) = 1$. Therefore the base case holds. 
 
-Next we show that $n \rightarrow n + 1$. We assume that the relation holds for some $k \in \integers$. Therefore we know that $\sum_{i=1}^k  (2 * i - 1) ^2 = 1/3 * k * (4 * k^2 - 1)$. Now we show that the relation also holds for $k + 1$. 
+Next we show that $n \rightarrow n + 1$. We assume that the relation holds $\forall n \leq k$ for $k \in \integers$. Therefore we know that $\sum_{i=1}^k  (2 * i - 1) ^2 = 1/3 * k * (4 * k^2 - 1)$. Now we show that the relation also holds for $k + 1$. 
 
 \begin{equation*}
 \begin{split}
@@ -95,12 +95,29 @@ two children. Prove that a fully binary tree with $n$ internal nodes
 in total has $2n+1$ nodes.
 \newline
 
-%\noindent
-%{\bf Proof:} ....
-%....
-%draw/include a figure if necessary.
-%$\hfill \Box$
-%\newline
+Because $T$ is a full binary tree we know that there is exactly $2^x$ nodes in layer $x$. Therefore the total number of nodes in the first $k$ layers is: $\sum _{i = 0}^{k} 2^i$. We let $k = $ the total depth of the tree. Therefore $n = \sum _{i = 0}^{k-1} 2^i$. We can express the problem as $\sum _{i = 0}^{k} 2^i = 2n + 1$. 
+
+
+\begin{proof}
+By induction. We show $\sum _{i = 0}^{k} 2^i = 2n + 1$.
+
+We show that the base case of $k = 1$ holds. In this case there is 1 internal node. $\sum _{i = 0}^{1} 2^i = 2(1) + 1 = 3$
+
+We assume that the relation holds $\forall n \leq k$ for $k \in \integers$.
+
+Next we show that the relation is true for $k + 1$. Thus $\sum _{i = 0}^{k} 2^i = 2n + 1 = 2 \left( \sum _{i = 0}^{k-1} 2^i \right) + 1$
+
+\begin{equation}
+\begin{split}
+\sum _{i = 0}^{k + 1} 2^i &= 2n + 1\\
+2 ^{k+1} + \sum _{i = 0}^{k} 2^i &= 2 (\sum _{i = 0}^{k} 2^i) + 1\\
+2 ^{k+1} + \left [2 \left( \sum _{i = 0}^{k-1} 2^i \right) + 1 \right ] &= 2 \left( 2^k + \sum _{i = 0}^{k-1} 2^i \right) + 1\\
+2 ^{k+1} + 2 * \sum _{i = 0}^{k-1} 2^i + 1 &= 2^{k + 1} + 2 * \sum _{i = 0}^{k-1} 2^i + 1
+\end{split}
+\end{equation} 
+
+Thus the base case and inductive step hold and the claim is proven true by mathematical induction.
+\end{proof}
 
 \newpage.
 \section*{Problem 5}
