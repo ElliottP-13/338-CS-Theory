@@ -68,11 +68,13 @@ Let $|V|=n$, where $V$ is the set of vertices of $P$.
 Prove that $|F|$ is at most $2n$.
 \newline
 
-%\noindent
-%{\bf Proof:} ....
-%....
-%$\hfill \Box$
-%\newline
+\begin{proof}
+If the graph has only one face or is a tree or forest then the claim is trivially true. 
+
+If we count the edges in P face by face we count each edge twice giving a total of $2 |E|$ edges. Since each face must consist of at least 3 edges then $2|E| \geq 3 |F|$ which is equivalent to $|E| \geq 3/2 |F|$. 
+
+Then by Euler's Formula $|F| - 3/2 |F| \geq 2 - |V|$ solving for $|F|$ we find $|F| \leq 2 |V| - 4 < 2n$
+\end{proof}
 
 \newpage
 \section*{Problem 3}
@@ -96,6 +98,7 @@ in total has $2n+1$ nodes.
 \newline
 
 Because $T$ is a full binary tree we know that there is exactly $2^x$ nodes in layer $x$. Therefore the total number of nodes in the first $k$ layers is: $\sum _{i = 0}^{k} 2^i$. We let $k = $ the total depth of the tree. Therefore $n = \sum _{i = 0}^{k-1} 2^i$. We can express the problem as $\sum _{i = 0}^{k} 2^i = 2n + 1$. 
+\newline
 
 
 \begin{proof}
