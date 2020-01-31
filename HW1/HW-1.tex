@@ -100,7 +100,6 @@ in total has $2n+1$ nodes.
 Because $T$ is a full binary tree we know that there is exactly $2^x$ nodes in layer $x$. Therefore the total number of nodes in the first $k$ layers is: $\sum _{i = 0}^{k} 2^i$. We let $k = $ the total depth of the tree. Therefore $n = \sum _{i = 0}^{k-1} 2^i$. We can express the problem as $\sum _{i = 0}^{k} 2^i = 2n + 1$. 
 \newline
 
-
 \begin{proof}
 By induction. We show $\sum _{i = 0}^{k} 2^i = 2n + 1$.
 
@@ -145,11 +144,11 @@ Prove that this algorithm is correct; i.e., $\delta(x,y)$ is in fact the
 longest among all the shortest paths between $u,v\in V$.
 \newline
 
-%\noindent
-%{\bf Proof:} ....
-%....
-%draw/include a figure if necessary.
-%$\hfill \Box$
+\begin{proof}
+By Contradiction.
+
+Suppose not. Suppose that there exists another pair of vertices $u, v$ that have a longer shortest path. Then $u$ must be further away from $w$ than $x$ or $v$ must be further away from $x$ than $y$. A contradiction, and the claim is proven true.
+\end{proof}
 
 \end{document}
 
