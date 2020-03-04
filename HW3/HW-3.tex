@@ -11,8 +11,8 @@
 
 \begin{document}
 \date{Feb 3, 2020}
-\ShortHeadings{Computer Science Theory: Assignment~1}{Elliott Pryor}
-\title{CSCI 338: Assignment~1~(6 points)}
+\ShortHeadings{Computer Science Theory: Assignment~3}{Elliott Pryor}
+\title{CSCI 338: Assignment~3~(6 points)}
 
 \author{Elliott Pryor}
 
@@ -44,7 +44,11 @@ Design context-free grammars for the following languages
 (1.2) $B=\{a^ib^jc^k|i,j,k\geq 0$ and either $i=j$ or $j=k\}$.
 
 \begin{itemize}
-\item $S = $
+\item $S = XC | AY$
+\item $A = aA | \epsilon$
+\item $C = cC | \epsilon$
+\item $X = aXb | \epsilon$
+\item $Y = bXc | \epsilon$
 
 \end{itemize}
 
@@ -79,6 +83,20 @@ $A\rightarrow a|Aa$
 $B\rightarrow b$
 
 
+\begin{table}[h!]
+\begin{tabular}{l r}
+S & S\\
+AB & aaB\\
+AaB & aaB\\
+aaB & aaB\\
+aab & aab\\
+\end{tabular}
+
+\end{table}
+
+
+There are multiple ways to generate the string ``aab'' with this grammar, so \textbf{yes} the grammar is ambiguous.
+
 \newpage
 \section*{Problem 3}
 
@@ -92,6 +110,11 @@ $S\rightarrow aTb|bTa$
 $T\rightarrow XTX|X|\epsilon$
 
 $X\rightarrow a|b$
+
+\begin{figure}[h!]
+\includegraphics[scale=1]{problem3.png} 
+\caption{Solution to Problem 3}
+\end{figure}
 
 
 
