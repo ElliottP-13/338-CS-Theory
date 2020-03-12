@@ -10,7 +10,7 @@
 
 
 \begin{document}
-\date{March 10, 2020}
+\date{March 12, 2020}
 \ShortHeadings{Computer Science Theory: Assignment~3}{Elliott Pryor}
 \title{CSCI 338: Assignment~3~(6 points)}
 
@@ -35,7 +35,7 @@ Design context-free grammars for the following languages
 (1.1) $A=\{a^nb^m|n\neq 2m\}$.
 
 \begin{itemize}
-\item $S = aaSb | A | B$
+\item $S = aaSb | A | aB | B$
 \item $A = aA | a$
 \item $B = bB | b$
 \end{itemize}
@@ -169,14 +169,14 @@ Convert the following CFG into an equivalent CFG in Chomsky Normal Form
 $A\rightarrow BAB|B|\epsilon$
 
 $B\rightarrow 00|\epsilon$
+\hline
 
 
-$S_0 \rightarrow BC | AB | BA | BB | XY$\\
-$A \rightarrow BC | AB | BA | BB | XY$\\
-$B \rightarrow XY$\\
+$S_0 \rightarrow BC | AB | BA | BB | XX$\\
+$A \rightarrow BC | AB | BA | BB | XX$\\
+$B \rightarrow XX$\\
 $C \rightarrow AB$\\
 $X \rightarrow 0$\\
-$Y \rightarrow 0$\\
 
 
 \begin{figure}[h!]
