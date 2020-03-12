@@ -135,17 +135,28 @@ $U\rightarrow 0U00|\#$
 \textbf{(4.1) Describe $L(G)$ in English.}
 \newline
 
-$L(G)$ has two $\#$'s within a list of zeros. Or L(G) a single $\#$ one third of the way through a list of zeros with a multiple of three length.
+$L(G)$ has two $\#$'s within a list of zeros. Or L(G) a single $\#$ one third of the way through a list of zeros with a multiple of three length. Ie. it has a list of $n$ zeros, a single $\#$ then a list of $2n$ zeros.
 
 \noindent
 \textbf{(4.2) Prove that $L(G)$ is not regular.}
 
 \begin{proof} By Contradiction.
 
-Assume that $L(G)$ is regular. Then we pick $S= $
+Assume that $L(G)$ is regular. Then we pick $S= 0^p \# 0^{2p}$
+
+By the pumping lemma, $S$ can be decomposed into $xyz$ s.t.
+
+\begin{enumerate}[(1)]
+\item $xy^iz \in A$ for $i \geq 0$
+\item $|y| > 0$
+\item $|xy| \leq p$ 
+\end{enumerate}
+
+Let $i = |y|$, then by (2) $i = |y| > 0$, and by (3) $|xy| \leq p$ so $y$ must consist of only zeros. We pump up $xy^2z = 0^{p + i} \# 0^{2p} \notin L$ because we increased the number of zeros before the $\#$ without changing those after it, so $2(p+i) \neq 2p$.
+
+A contradiction of the pumping lemma, so $L$ must not be regular.
 
 \end{proof}
-
 
 \newpage
 \section*{Problem 5}
@@ -158,11 +169,19 @@ $A\rightarrow BAB|B|\epsilon$
 $B\rightarrow 00|\epsilon$
 
 
-$S_0 \rightarrow BD | AB | BA | CC$\\
-$A \rightarrow BD | AB | BA | CC$\\
-$B \rightarrow CC$\\
-$C \rightarrow 0$\\
-$D \rightarrow AB$
+$S_0 \rightarrow BC | AB | BA | BB | XY$\\
+$A \rightarrow BC | AB | BA | BB | XY$\\
+$B \rightarrow XY$\\
+$C \rightarrow AB$\\
+$X \rightarrow 0$\\
+$Y \rightarrow 0$\\
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.9]{problem5.png} 
+	\caption{Work for Problem 5}
+\end{figure}
 
 \newpage
 \section*{Problem 6}
