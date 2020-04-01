@@ -125,9 +125,22 @@ Let $w$ be an input $w \in L(M)$. Then we know that $A_{TM} = \{<M, w> | M$ is a
 Show that $EQ_{CFG}$ is undecidable.
 \newline
 
-This was proven in class on Week of Mar 23-27 Undecidability. The general premise is:
+\begin{proof} By Contradiction
 
-$Eq_{CFG}$ = $\{ <G, H> | $ G, and H are CFG's and $L(G) = L(H) \}$. Then let set $C = (L(G) \cap \bar{L(H)}) \cup (\bar{L(G)} \cap L(H))$. 
+Assume that Turing Machine $R$ decides $EQ_{CFG}$. We construct a TM S that decides $ALL_{CFG}$.
+
+S: $<G>$
+\begin{enumerate}[1.]
+	\item Construct CFG H such that $L(H) = \sum^*$
+	\item Run $R$ on $<G, H>$
+	\item If $R$ accepts $<G, H>$ then accept, if $R$ rejects $<G,H>$ then reject
+\end{enumerate}
+
+Then S decides $ALL_{CFG}$ which is a contradiction of Theorem 5.13. Therefore $EQ_{CFG}$ is undecidable. 
+
+\end{proof}
+
+
 
 \newpage
 \section*{Problem 6}
@@ -135,11 +148,31 @@ $Eq_{CFG}$ = $\{ <G, H> | $ G, and H are CFG's and $L(G) = L(H) \}$. Then let se
 Show that $EQ_{CFG}$ is co-Turing-recognizable.
 \newline
 
+\begin{proof}
+
+
+We construct a TM S that recognizes $\overline{EQ_{CFG}}$. 
+
+S: $<G,H>$ where $G, H$ are CFGs
+\begin{enumerate}[1.]
+	\item We generate a unique string $w \in \sum^*$.
+	\item We check if $A_{CFG}<G, w> \neq A_{CFG}<H,w>$. If true, then we accept
+	\item If false we generate a new string $w$ and try again
+\end{enumerate}
+
+We know by Theorem 4.7 $A_{CFG}$ is decidable. So if $L(G) \neq L(H)$ S will eventually find some $w$ that satisfies the condition. Therfore, S returns true on a yes instance as required for it to recognize $\overline{EQ_{CFG}}$.
+
+\end{proof}
+
 
 \newpage
 \section*{Problem 7}
 
 Problem 5.3 (page 239---third edition of Sipser).
 \newline
+
+If we number the cards 1-4. We have a sequence of 4, 4, 2, 1. This generates
+
+$$\frac{aa | aa | b | ab}{a | a | a | abab} = \frac{aaaabab}{aaaabab}$$
 
 \end{document}
