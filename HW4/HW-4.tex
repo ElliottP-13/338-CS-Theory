@@ -95,7 +95,7 @@ Show that $INFINITE_{PDA}$ is decidable.
 
 \begin{proof}
 
-We construct a TM S for $INFINITE_{PDA}$. By Theorems 2.9 and 2.20 we can convert the PDA into a CFG $G$ in Chompsky Normal Form. We then accept if there is some derivation $D \xrightarrow{*} xDy$ where $x,y$ consist only of terminals. We reject otherwise.
+We construct a TM S for $INFINITE_{PDA}$. By Theorems 2.9 and 2.20 we can convert the PDA into a CFG $G$ in Chompsky Normal Form. We then accept if there is some derivation $D \xrightarrow{*} xDy$ where $x,y$ consist only of terminals. We reject otherwise. If $L(G)$ is finite, then there certainly is a finite number of derivations. If $L(G)$ is infinite then by the pumping lemma we will find a derivation $D \xrightarrow{*} xDy$ in a finite number of steps. So we can enumerate all the possible derivations.
 
 \end{proof}
 
@@ -113,9 +113,26 @@ Prove that {\em ODD}$_{TM}$ is undecidable.
 
 
 
-\begin{proof}
+\begin{proof} By Contradiction.
 
-Let $w$ be an input $w \in L(M)$. Then we know that $A_{TM} = \{<M, w> | M$ is a TM which accepts $w \}$ is undecidable by Theorem 4.11 in class. Therefore, it is undecidable for every sentence in the language. Therefore $ODD_{TM}$ is undecidable.
+We assume that $R$ decides $ODD_{TM}$. Then we construct a TM $S$ that decides $A_{TM}$. We let $<M', w>$ be the input into $A_{TM}$. 
+
+First we construct a TM $H$ on input $x$ as follows:
+\begin{enumerate}
+	\item If $M'$ accepts $w$ accept
+	\item if $x = aaa$ then accept, otherwise reject
+\end{enumerate}
+
+So now we can construct $S$ on $<M', w>$:
+\begin{enumerate}
+	\item Construct $H$ as above
+	\item Run $R$ on $<H>$.
+	\item If $R$ accepts: reject
+	
+	If $R$ rejects: accept.
+\end{enumerate}
+
+Then $S$ decides $A_{TM}$ a contradiction of theorem 4.11. Therefore $ODD_{TM}$ is undecidable.
 \end{proof}
 
 
