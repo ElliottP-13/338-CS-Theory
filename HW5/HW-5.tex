@@ -21,7 +21,7 @@
 
 %When writing up your solution, comment out the following until you reach Problem 1.
 \noindent
-This assignment is due on {\bf Friday, April 17, 11:30pm}. It is strongly
+This assignment is due on {\bf Monday, April 20, 11:30pm}. It is strongly
 encouraged that you use Latex to generate a single pdf file and upload it
 under {\em Assignment 5} on D2L. But there will NOT be a penalty for not
 using Latex (to finish the assignment). This is {\bf not} a group-assignment,
@@ -72,7 +72,7 @@ The optimal number of multiplications is 13600. It is located at m[1,5] in the t
 We are given a context-free grammar $G$ as follows:
 \newline
 
-$G$: $S\rightarrow AS|SB|\varepsilon$
+$G$: $S\rightarrow AS|SB$
 
 ~~~  $A\rightarrow AD|DA|a$
 
@@ -108,15 +108,58 @@ We are also given a string $w=bdbdd$.
 
 $G$ generates $w$ if S is in the top right corner (table[1,5]).
 
+So in this case, $G$ cannot generate $w$ since $S \notin table[1,5]$
+
 \newpage
 \section*{Problem 3}
 
 Show that $ALL_{DFA}\in$ P.
 
+
+\begin{proof}
+
+
+We construct a decideer for $ALL_{DFA}$ that runs in $O(n^k)$ time. We know that $ALL_{DFA}$ accepts $\sum^*$ iff we arrive at an accept state in every possible configuration. So we construct the decider $S$ as follows:
+
+S: $<D>$ where D is some DFA:
+\begin{enumerate}
+\item Perform Breadth First Search on D starting at the start state $q_0$
+\item Test if only accepting states were visited.
+\item If the test returns true $\rightarrow$ accept\\
+	Otherwise $\rightarrow$ reject
+\end{enumerate}
+
+Clearly $S$ decides $ALL_{DFA}$ as $S$ visits all possible states and if S accepts each one is an accepting state, so $L(D) = \sum^*$. If $S$ rejects then there is some non-accepting state that can be reached from $q_0$ so $L(D) \neq \sum^*$ because it can arrive at some non-accepting state.
+
+Also, $S$ runs in polynomial time as BFS runs in polynomial time.
+Therefore, we have found a decider for $ALL_{DFA}$ that runs in polynomial time. And by definition, $ALL_{DFA} \in P$ 
+
+\end{proof}
+
 \newpage
 \section*{Problem 4}
 
 Show that Independent Set $\in$ NP.
-\newline
+
+
+\begin{proof}
+
+We construct a non-deterministic polynomial time turing machine $S$ to decide Independent Set. 
+
+S: $<G, k>$ where G is a graph $G = (V,E)$ and $k$ is an integer st. $k \leq |V|$
+
+\begin{enumerate}
+
+\item Non-deterministically select some subset $c$ of $k$ verticies from $G$
+\item Test whether $G$ contains any of the $k \choose 2$ edges connecting nodes in c
+\item If test returns true, then $G$ has an edge connecting some $u,v \in c$ $\rightarrow$ Reject\\
+	Otherwise, $G$ has no edges connecting $u, v \in c$ $\rightarrow$ Accept
+
+\end{enumerate}
+
+$S$ runs in $O({k \choose 2}) = O(n^2)$ time. So we have found a non-deterministic decider that runs in polynomial time. So Independent Set $\in NP$ by Theorem 7.20 
+
+\end{proof}
+
 
 \end{document}
