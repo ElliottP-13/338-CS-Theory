@@ -33,6 +33,19 @@ Problem 7.9 (page 323).
 \newline
 
 
+\begin{proof}
+
+
+We construct a TM that decides $TRIANGLE$ in polynomial time. 
+
+So if there is a triangle between nodes $a, b, c$ then $\exists (a, b), (a,c), (b, c) \in E$. In other words, there is an edge between each vertex. We can check if these edges exist by considering combinations of the edge set. There are ${|E| \choose 3}$ combinations of the edge set. Let $m$ be the number of edges in $G$, $m = |E|$.  Well ${m \choose 3 } = \frac{m!}{3! (m - 3)!} = \frac{m * (m-1) * (m-2)}{6} = \frac{1}{6} m^3 - 3m^2 + 2m$. Then we can iterate the list of combinations until we find one that matches the form $(a, b), (a,c), (b, c)$. 
+
+If there is a combination that fits this form, then accept. Otherwise reject.
+
+This runs in polynomial time since the number of combinations is polynomial with respect to the size of the edge set. So we can perform this operation in $O(m^3) = O(|E|^3)$. Therefore, we have an algorithm that decides $TRIANGLE$ in polynomial time, so $TRIANGLE \in P$ by defintion.
+
+\end{proof}
+
 
 \section*{Problem 2}
 
