@@ -46,17 +46,48 @@ This runs in polynomial time since the number of combinations is polynomial with
 
 \end{proof}
 
-
+\newpage
 \section*{Problem 2}
 
 Problem 7.21 (page 324).
-\newline
 
+Say that two Boolean formulas are equivalent if they have the same set of variables
+and are true on the same set of assignments to those variables (i.e., they describe
+the same Boolean function). A Boolean formula is minimal if no shorter Boolean
+formula is equivalent to it. Let MIN-FORMULA be the collection of minimal
+Boolean formulas. Show that if P = NP, then $MIN-FORMULA \in P$.
+
+
+\begin{proof}
+
+
+We must show that $MIN-FORMULA \in NP$. Then if $P = NP$ $MIN-FORMULA \in P$
+
+
+We first show that given two boolean fomulae determining if they are equivalent is in NP. We construct a non-deterministic TM $S$ to decide if boolean formulae $A, B$ are equivalent. We non-deterministically select some variable assignment $x$ for the variables in $A, B$. If $A(x) \neq B(x)$ then we reject, otherwise we accept. 
+
+$S$ runs in polynomial time as it would take $O(n)$ time to compute the truth value of $A, B$ given some assignment $x$ where $n$ is the number of variables. 
+
+
+%Might need the accept state of the non-determinism on the if part%
+
+Then we construct a non-deterministic TM $R$ to decide if a boolean formula is minimal. Given input $A$ where $A$ is a boolean formula, we non-deterministically select a boolean fomula $B$ such that $B$ is shorter than $A$. We then check if $B$ is equivalent to $A$. If $B$ is equivalent to $A$ we reject, otherwise, we accept. 
+
+Then if $P = NP$, $R$ runs in polynomial time. Because if $P = NP$ then the problem of checking if two formulae are equivalent (TM $S$) can be deterministically solved in polynomial time. 
+
+Therefore $MIN-FORMULA \in NP$ by definition. Because $P = NP$, $MIN-FORMULA$ must also be in P, $MIN-FORMULA \in NP$
+
+\end{proof}
+
+
+\newpage
 \section*{Problem 3}
 
 Problem 7.22 (page 324).
 \newline
 
+
+\newpage
 \section*{Problem 4}
 
 Problem 7.35 (page 326).
