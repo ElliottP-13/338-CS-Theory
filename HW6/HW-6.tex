@@ -11,8 +11,8 @@
 
 \begin{document}
 \date{April 28, 2020}
-\ShortHeadings{Computer Science Theory: Assignment~5}{Elliott Pryor}
-\title{CSCI 338: Assignment~5~(6 points)}
+\ShortHeadings{Computer Science Theory: Assignment~6}{Elliott Pryor}
+\title{CSCI 338: Assignment~6~(6 points)}
 
 \author{Elliott Pryor}
 
@@ -46,8 +46,51 @@ This runs in polynomial time since the number of combinations is polynomial with
 
 \end{proof}
 
+
 \newpage
 \section*{Problem 2}
+Problem 7.21 (page 324).
+
+$SPATH = \{<G, a, b, k> | G$ contains a simple path of length at most $k$ from $a$ to $b\}$
+
+$LPATH = \{G, a, b, k> | G$ contains a simple path of at least $k$ from $a$ to $b \}$
+
+
+\begin{enumerate}[label=\alph*)]
+\item  Show that $SPATH \in P$.
+
+We construct a polynomial time deterministic TM $S$ to decide $SPATH$. We run Breadth first search on $G$ starting from node $a$. We run BFS from $a$ until we reach $b$. We know that the path found will be the shortest path from $a$ to $b$. Then we check if the length of this path is less than or equal to $k$. If so then we accept, otherwise we reject.
+
+This runs in Polynomial time since it is known that BFS runs in polynomial time. 
+
+\item Show that $LPATH \in NP-C$
+
+We need to show that $LPATH \in NP$ and $A \leq _p LPATH$ for some NP-Complete problem $A$.
+
+\begin{enumerate}[label=\arabic*)]
+
+\item $LPATH \in NP$. We construct a non-deterministic TM $R$ to decide $LPATH$. We nondeterministically select some path from $a$ to $b$ in $G$. If the length of the path is greater than or equal to $k$ we accept. Otherwise we reject. 
+
+This runs in polynomial time as we only need to compare the length of the path selected. Then by Theorem 7.20, $LPATH \in NP$
+
+
+\item  We reduce the Hamiltonian Cycle problem to $LPATH$, $HAMILTON \leq _p LPATH$. We map $HAMILTONIAN$ input to input for $LPATH$ as follows. We set $k$ to be the number of nodes in $G$, $k = |V|$. We then set $a = b$ to be some node in $G$, $a \in G$.
+
+Then if $G$ contains a Hamiltonian Cycle there is a path through $G$ that visits each node once and returns to the start node. So the length of this cycle is $|V|$. Then there is some simple path from $a$ returning to itself, of length $k$. So $<G, a, a, k> \in LPATH$.
+
+Then if there is some simple path of length $k$ in $G$ that starts at $a$ and returns to it (eg. $<G, a, a, k> \in LPATH$ then there is a hamiltonian cycle. Because a simple path cannot visit the same vertex twice, we know that it must then visit every vertex in $G \setminus \{a\}$ exactly once, and it visits $a$ twice. So then the path is a hamiltonian circuit as it visits every vertex without repeats.
+
+Therefore, we have reduced Hamiltonian Cycle (which is known NP in class) to $LPATH$.
+
+\end{enumerate}
+
+Since we have shown both 1) and 2) $LPATH \in NP-Complete$
+
+
+\end{enumerate}
+
+\newpage
+\section*{Problem 2 BAD}
 
 Problem 7.21 (page 324).
 
@@ -83,14 +126,94 @@ Therefore $MIN-FORMULA \in NP$ by definition. Because $P = NP$, $MIN-FORMULA$ mu
 \newpage
 \section*{Problem 3}
 
-Problem 7.22 (page 324).
+Problem 7.22 (page 324).\\
+Modify the algorithm for context-free language recognition in the proof of Theorem 7.16 to give a polynomial time algorithm that produces a parse tree for a
+string, given the string and a CFG, if that grammar generates the string.
 \newline
+
+
+We modify the algorithm from Theorem 7.16 by adding an additonal table called tree. This table stores the parse trees used to generate the substrings in each spot in table. We index the table with three variables $tree[i, j, A]$ where $i, j$ are indicies in $table$. We need the third index $A$ to identify which rule we are using, as there can be multiple rules stored at each index in $table$. 
+
+So during initialization, along the diagonal we would create a tree at $tree[i,i, A]$
+
+\begin{equation}
+\begin{forest}
+[A [$w_i$]]
+\end{forest}
+\end{equation}
+
+
+if $A \rightarrow w_i$ is a rule.
+
+Then during the main step, if $A \rightarrow BC$ is a rule and $table[i,k]$ contains $B$ and $table[k+1, j]$ contains $C$, we add a new tree to $tree[i, j, A]$. 
+
+\begin{equation}
+\begin{forest}
+[A [{$tree[i, k, B]$}]  [{$tree[k+1, j, C]$}]]
+\end{forest}
+\end{equation}
+
+
+We would then return $tree[1, n, S]$.
+
+\begin{algorithm}
+    \caption{Parse Tree}\label{guests}
+    \begin{algorithmic}[1]
+    \Function{Parse Tree}{$s, G$}
+        \For{$i$ in $[1, n]$}
+			\For {each variable A}
+				\State Test wheterh $A \rightarrow b$ is a rule where $b = w_i$.
+				\State if so, place $A$ in $table(i,i)$ and create tree (1) in $tree(i, i, A)$. 
+			\EndFor
+		\EndFor
+		\For{$l$ in $[2 ... n]$}
+			\For{i = 1 to $n - l$ + 1}
+				\State Let $j = i + l - 1$
+				\For{$k$ = $i$ to $j-1$}
+					\For{each rule $A \rightarrow BC$}
+						\If{table(i, k) contains B and table(k+1, j) contains C}
+							\State put A in table(i,j)
+							\State put tree (2) in tree(i,j,A)
+						\EndIf	
+					\EndFor				
+				\EndFor			
+			\EndFor
+		\EndFor
+       \State \textbf{return} tree(1, n, S)
+    \EndFunction
+    \end{algorithmic}
+\end{algorithm}
 
 
 \newpage
 \section*{Problem 4}
 
-Problem 7.35 (page 326).
+Show that if P = NP, a polynomial time algorithm exists that produces a satisfying
+assignment when given a satisfiable Boolean formula. (Note: The algorithm you
+are asked to provide computes a function; but NP contains languages, not functions. The P = NP assumption implies that SAT is in P, so testing satisfiability is
+solvable in polynomial time. But the assumption doesn’t say how this test is done,
+and the test may not reveal satisfying assignments. You must show that you can find
+them anyway. Hint: Use the satisfiability tester repeatedly to find the assignment
+bit-by-bit.)
+
+
+
+
+We can find the value assigments for SAT also in polynomial time. We iterate through the list of variables. We assign variable $x_i$ to True. We then test if the formula is satisfiable with this assignment. If it is satsifieable we move on to the next variable. If it is not satisfiable, then $x_i$ must be False because the True assignment violated a necesary constraint. So we assign it to false and move on. We do this for each variable in the set. 
+
+\begin{algorithm}
+    \caption{Parse Tree}\label{guests}
+    \begin{algorithmic}[1]
+    \Function{Parse Tree}{$X, f$}
+        \For{$i$ in $[1, n]$}
+			\State $x_i = True$
+			\State \textbf{if} isSatisfiable(X, f) then continue.
+			\State \textbf{else} $x_i = False$ then continue.
+		\EndFor
+       \State \textbf{return} $x_1 ... x_n$
+    \EndFunction
+    \end{algorithmic}
+\end{algorithm}
 
 
 \end{document}
