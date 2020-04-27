@@ -56,6 +56,9 @@ $SPATH = \{<G, a, b, k> | G$ contains a simple path of length at most $k$ from $
 $LPATH = \{G, a, b, k> | G$ contains a simple path of at least $k$ from $a$ to $b \}$
 
 
+\begin{proof}
+
+
 \begin{enumerate}[label=\alph*)]
 \item  Show that $SPATH \in P$.
 
@@ -76,6 +79,7 @@ This runs in polynomial time as we only need to compare the length of the path s
 
 \item  We reduce the Hamiltonian Cycle problem to $LPATH$, $HAMILTON \leq _p LPATH$. We map $HAMILTONIAN$ input to input for $LPATH$ as follows. We set $k$ to be the number of nodes in $G$, $k = |V|$. We then set $a = b$ to be some node in $G$, $a \in G$.
 
+We show that $G$ contains a Hamiltonian Cycle iff it has an $LPATH$ with length $k$ from $a$ to $a$.
 Then if $G$ contains a Hamiltonian Cycle there is a path through $G$ that visits each node once and returns to the start node. So the length of this cycle is $|V|$. Then there is some simple path from $a$ returning to itself, of length $k$. So $<G, a, a, k> \in LPATH$.
 
 Then if there is some simple path of length $k$ in $G$ that starts at $a$ and returns to it (eg. $<G, a, a, k> \in LPATH$ then there is a hamiltonian cycle. Because a simple path cannot visit the same vertex twice, we know that it must then visit every vertex in $G \setminus \{a\}$ exactly once, and it visits $a$ twice. So then the path is a hamiltonian circuit as it visits every vertex without repeats.
@@ -88,6 +92,98 @@ Since we have shown both 1) and 2) $LPATH \in NP-Complete$
 
 
 \end{enumerate}
+
+\end{proof}
+
+
+
+
+\newpage
+\section*{Problem 3}
+
+Problem 7.22 (page 324)\\
+$DOUBLE-SAT = \{<\phi> | \phi$ has at least two satisfying assignments $\}$.
+
+Show that $DOUBLE-SAT \in NP-Complete$
+
+
+\begin{proof}
+
+We need to show $DOUBLE-SAT \in NP$ and $A \leq _p DOUBLE-SAT$ for some NP-Complete problem A.
+
+\begin{enumerate}[label=\alph*)]
+
+\item We show $DOUBLE-SAT \in NP$
+
+We construct a non-deterministic TM $S$ to decide $DOUBLE-SAT$. We non-deterministically select some set of variable assignments $X$. We then check if $X$ satisfies $\phi$. If yes, accept; otherwise, reject.
+
+\item We show that $SAT \leq _p DOUBLE-SAT$. 
+
+We map the input of $SAT$ to $DOUBLE-SAT$ as follows. We construct $\phi '$ st. $\phi ' = \phi \wedge (a \vee \bar{a})$ where $a$ is a new variable $x \notin \phi$. 
+
+We show that $\phi \in SAT$ iff $\phi ' \in DOUBLE-SAT$.
+First, if $\phi \in SAT$ then $\phi ' \in DOUBLE-SAT$. Because $\phi$ is satisfiable, we know there must be at least one set of variable assignments that satisfy $\phi$. Then $\phi '$ has at least two satsifiable assignments because $\phi$ is satisfiable and $(a \vee \bar{a})$ is satisfied when $a = TRUE$ or $a = FALSE$. So we can select a set of variables that satisfy $\phi$ and $a$ can be either TRUE or FALSE. So, $\phi ' \in DOUBLE-SAT$.
+
+Second, if $\phi ' \in DOUBLE-SAT$ then $\phi \in SAT$. Because $phi '$ is satisfiable we know that $\phi$ must also be satisfiable. We show this by contradiction. Assume $\phi '$ is satisfiable and $\phi$ is unsatisfiable. Then by our construction of $phi' = \phi \wedge (a \vee \bar{a})$ if $\phi$ is unsatisfiable then there would be no set of variable assignments possible to satisfy $\phi '$, a contradiction. So if $\phi '$ is satisfiable then $\phi$ must also be satisfiable.
+\end{enumerate}
+
+Since we have shown both 1) and 2) $DOUBLE-SAT \in NP-Complete$
+\end{proof}
+
+
+\newpage
+\section*{Problem 4}
+
+Problem 7.35 (page 326).
+
+$DOMINATING-SET = \{ <G, k> | G $ has a dominating set with $k$ nodes$\}$
+
+Show that $DOMINATING-SET \in NP-Complete$ by giving a reduction from $VERTEX-COVER$
+
+
+
+\begin{proof}
+
+We need to show $DOMINATING-SET \in NP$ and $VERTEX-COVER \leq _p DOMINATING-SET$.
+
+\begin{enumerate}[label=\alph*)]
+
+\item We show that $DOMINATING-SET \in NP$. 
+
+We construct a non-deterministic TM $S$ to decide $DOMINATING-SET$. We non-deterministically select a subset $V' \subseteq V$. We iterate through the list of edges and verify that for every $u \notin V'$ there is a $v \in V'$ st. $(u, v) \in E$. We can do this in polynomial time with respect to the number of edges. So then $DOMINATING-SET \in NP$.
+
+
+\item We reduce $VERTEX-COVER$ to $DOMINATING-SET$ ($VERTEX-COVER \leq _p DOMINATING-SET$). 
+
+We map the input to $VERTEX-COVER$ to $DOMINATING-SET$. We construct a new graph $G' = (V', E')$. $G'$ contains all the edges and verticies of $G$, but in addition, for each edge $(u, v) \in E$ we create vertex $a$ connected to $u$ and $v$. So we add $a$ to $V'$ and $(u, a)$ and $(a, v)$ to $E'$.
+
+Then we show that $G$ has a vertex cover of size $k$ iff $G'$ has a dominating set of size $k$. 
+First we show that if $G$ has a vertex cover of size $k$ (denoted $VC$) then it has a dominating set of size $k$.  Then $VC$ must also dominate $G'$. Consider the triangle $v, u, a$ where $v, u \in V$ and $a \in V'$ (this is a triangle formed by the added verticies and edges in $G'$). Because $VC$ is a vertex cover, we know $u \in VC$ or $v \in VC$ because every edge $(u,v) \in E$ is covered. Then because $u$ or $v$ is selected in the cover, the triangle $v, u, a$ must be dominated. Therefore, every new vertex in $V'$ is also dominated. Therefore $VC$ is also a dominating set for $G'$. Because $VC$ is also a dominating set $|VC| = k$ so $G'$ has a dominating set of size $k$.
+
+Next we show that if $G'$ has a dominating set of size $k$ (denoted $DS$), $G$ has a vertex cover of size $k$. Consider the triangle $v, u, a$ where $v, u \in V$ and $a \in V'$ (this is a triangle formed by the added verticies and edges in $G'$). We know that one of the verticies $u, v, a \in DS$. Then we consider the verticies $a \in DS$ where $a$ is the vertex added during construction of $G'$. We can select $u$ or $v$ instead of $a$ and still have a dominating set. We do this for each `new' vertex that was in $DS$. Then $DS$ consists of only verticies in $V$, and covers all edges $(u, v)$. Therefore $DS$ is a vertex cover for $G$. Because $DS$ is a vertex cover and $|DS| = k$, then $G$ has a vertex cover of size $k$ as required.
+
+\end{enumerate}
+
+Since we have shown both 1) and 2) $DOMINATING-SET \in NP-Complete$
+
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \newpage
 \section*{Problem 2 BAD}
@@ -124,7 +220,7 @@ Therefore $MIN-FORMULA \in NP$ by definition. Because $P = NP$, $MIN-FORMULA$ mu
 
 
 \newpage
-\section*{Problem 3}
+\section*{Problem 3 BAD}
 
 Problem 7.22 (page 324).\\
 Modify the algorithm for context-free language recognition in the proof of Theorem 7.16 to give a polynomial time algorithm that produces a parse tree for a
@@ -186,7 +282,7 @@ We would then return $tree[1, n, S]$.
 
 
 \newpage
-\section*{Problem 4}
+\section*{Problem 4 BAD}
 
 Show that if P = NP, a polynomial time algorithm exists that produces a satisfying
 assignment when given a satisfiable Boolean formula. (Note: The algorithm you
